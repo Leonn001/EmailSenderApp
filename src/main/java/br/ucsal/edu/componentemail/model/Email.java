@@ -4,9 +4,7 @@ import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -17,7 +15,7 @@ email ser enviado, como destinatários, remetente, assunto, corpo de mensagem, a
 public class Email {
     private String emailFrom;
     private String passwordEmailFrom;
-    private List<String> emailsTo = new ArrayList<>();
+    Set<String> emailsTo = new TreeSet<>();
     private String subject;
     private String messageBody;
     // Aqui nós criamos uma thread para agilizar o envio de multiplos emails
@@ -75,6 +73,32 @@ public class Email {
     }
 
     /*
+    Este metodo vai adicionar um email na lista de emails
+     */
+    public void addEmail(String email) {
+        emailsTo.add(email);
+    }
+
+    /*
+    Este metodo vai remover um email na lista de emails
+     */
+    public void removeEmail(String email) {
+        if(emailsTo.contains(email)) {
+            emailsTo.remove(email);
+        } else {
+            System.out.println("Esse email nao está na lista de emails");
+        }
+    }
+
+    /*
+    Este metodo vai editar um email na lista de emails
+     */
+    public void editEmail(String oldEmail, String newEmail) {
+        removeEmail(oldEmail);
+        emailsTo.add(newEmail);
+    }
+
+    /*
     Aqui nós temos um construtor vazio, como nada é informado ele tem uma mensagem padrão que envia um email
     do remetente de testes para o destinatário email de testes.
      */
@@ -91,7 +115,7 @@ public class Email {
     de emails destinatários  e adiciona esses emails ao atributo de
     emailsTo (que é a lista de emails destinatários que irá ser passada pro sendEmails)
     */
-    public Email(String emailFrom, String passwordEmailFrom, List<String> emailsTo, String subject, String messageBody) {
+    public Email(String emailFrom, String passwordEmailFrom, Set<String> emailsTo, String subject, String messageBody) {
         this.emailFrom = emailFrom;
         this.passwordEmailFrom = makePasswordRegular(passwordEmailFrom);
         this.emailsTo = emailsTo;
@@ -103,7 +127,7 @@ public class Email {
     Esse construtor serve para quando não for informado um email remetente, vamos utilizar um email como padrão
     para que a mensagem seja enviada.
      */
-    public Email(List<String> emailsTo, String subject, String messageBody) {
+    public Email(Set<String> emailsTo, String subject, String messageBody) {
         this.emailFrom = "emailsendert82@gmail.com";
         this.passwordEmailFrom = "bipk eeot jjsm fvqy";
         this.emailsTo = emailsTo;
@@ -155,11 +179,11 @@ public class Email {
         this.passwordEmailFrom = passwordEmailFrom;
     }
 
-    public List<String> getEmailsTo() {
+    public Set<String> getEmailsTo() {
         return emailsTo;
     }
 
-    public void setEmailsTo(List<String> emailsTo) {
+    public void setEmailsTo(Set<String> emailsTo) {
         this.emailsTo = emailsTo;
     }
 
