@@ -11,7 +11,7 @@ Aqui você vai instânciar uma classe Email e os atributos (emailFrom,passwordEm
 por parametro
 Esta classe não será instanciada, apenas serve para chamar os métodos que instanciar Emails.
 */
-public abstract class  EmailFactory {
+public class  EmailFactory {
 
     public static Email createRegisterEmail(String emailFrom, String passwordEmailFrom, Set<String> emailTo) {
         String subject = "Confirmação de Cadastro";
